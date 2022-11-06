@@ -1,0 +1,710 @@
+{
+	"info": {
+		"_postman_id": "e06888a3-40f8-4623-b093-093bfbedbd8c",
+		"name": "Reprova",
+		"description": "Coleção destinada a testar os endpoints do trabalho da disciplina de Reuso de Software - Reprova",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "List public questions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/questions",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"questions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "List public questions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/questions",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 19 Jan 2022 19:15:57 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.z-SNAPSHOT)"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"61e84a66b9334012a906597f\",\n        \"theme\": \"Software Engineering\",\n        \"description\": \"Sample description\",\n        \"record\": {},\n        \"pvt\": false\n    },\n    {\n        \"id\": \"61e86322ee3d166510e79b5e\",\n        \"theme\": \"Software Engineering\",\n        \"description\": \"online\",\n        \"record\": {},\n        \"pvt\": false\n    },\n    {\n        \"id\": \"61e86335ee3d166510e79b5f\",\n        \"theme\": \"Software Engineering\",\n        \"description\": \"1080p\",\n        \"record\": {},\n        \"pvt\": false\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "List all questions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/questions?token={{token}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"questions"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "List all questions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/questions?token={{token}}",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 19 Jan 2022 19:16:10 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.z-SNAPSHOT)"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"61e84a66b9334012a906597f\",\n        \"theme\": \"Software Engineering\",\n        \"description\": \"Sample description\",\n        \"record\": {},\n        \"pvt\": false\n    },\n    {\n        \"id\": \"61e85a12eb2e6d43c9bfed8b\",\n        \"theme\": \"Software Engineering\",\n        \"description\": \"Sample private description\",\n        \"record\": {},\n        \"pvt\": true\n    },\n    {\n        \"id\": \"61e86322ee3d166510e79b5e\",\n        \"theme\": \"Software Engineering\",\n        \"description\": \"online\",\n        \"record\": {},\n        \"pvt\": false\n    },\n    {\n        \"id\": \"61e86335ee3d166510e79b5f\",\n        \"theme\": \"Software Engineering\",\n        \"description\": \"1080p\",\n        \"record\": {},\n        \"pvt\": false\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Create public multiple choice question",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"theme\": \"Software Engineering\",\n    \"description\": \"{{$randomAdjective}}\",\n    \"statement\": \"{{$randomNoun}}\",\n    \"pvt\": false,\n    \"type\":\"multiple_choice\",\n    \"optCount\": 4,\n    \"options\": [\n        \"A) Options A\",\n        \"B) Options B\",\n        \"C) Options C\",\n        \"D) Options D\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/api/questions?token={{token}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"questions"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create public multiple choice question",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"theme\": \"Software Engineering\",\n    \"description\": \"{{$randomAdjective}}\",\n    \"statement\": \"{{$randomNoun}}\",\n    \"pvt\": false,\n    \"type\":\"multiple_choice\",\n    \"optCount\": 4,\n    \"options\": [\n        \"A) Options A\",\n        \"B) Options B\",\n        \"C) Options C\",\n        \"D) Options D\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/questions?token={{token}}",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 04 Feb 2022 14:10:31 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.z-SNAPSHOT)"
+						}
+					],
+					"cookie": [],
+					"body": "\"Ok\""
+				}
+			]
+		},
+		{
+			"name": "Create public open question",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"theme\": \"Software Engineering\",\n    \"description\": \"{{$randomAdjective}}\",\n    \"statement\": \"{{$randomNoun}}\",\n    \"pvt\": false,\n    \"type\":\"open\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/api/questions?token={{token}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"questions"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create public open question",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"theme\": \"Software Engineering\",\n    \"description\": \"{{$randomAdjective}}\",\n    \"statement\": \"{{$randomNoun}}\",\n    \"pvt\": false,\n    \"type\":\"open\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/questions?token={{token}}",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 04 Feb 2022 14:10:45 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.z-SNAPSHOT)"
+						}
+					],
+					"cookie": [],
+					"body": "\"Ok\""
+				}
+			]
+		},
+		{
+			"name": "Create private open question",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"theme\": \"Software Engineering\",\n    \"description\": \"{{$randomAdjective}}\",\n    \"statement\": \"{{$randomNoun}}\",\n    \"pvt\": true,\n    \"type\": \"open\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/api/questions?token={{token}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"questions"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create private open question",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"theme\": \"Software Engineering\",\n    \"description\": \"{{$randomAdjective}}\",\n    \"statement\": \"{{$randomNoun}}\",\n    \"pvt\": true,\n    \"type\": \"open\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/questions?token={{token}}",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 04 Feb 2022 14:10:55 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.z-SNAPSHOT)"
+						}
+					],
+					"cookie": [],
+					"body": "\"Ok\""
+				}
+			]
+		},
+		{
+			"name": "Create private multiple choice question",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"theme\": \"Software Engineering\",\n    \"description\": \"{{$randomAdjective}}\",\n    \"statement\": \"{{$randomNoun}}\",\n    \"pvt\": true,\n    \"type\": \"multiple_choice\",\n    \"optCount\": 4,\n    \"options\": [\n        \"A) Options A\",\n        \"B) Options B\",\n        \"C) Options C\",\n        \"D) Options D\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/api/questions?token={{token}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"questions"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create private multiple choice question",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"theme\": \"Software Engineering\",\n    \"description\": \"{{$randomAdjective}}\",\n    \"statement\": \"{{$randomNoun}}\",\n    \"pvt\": true,\n    \"type\": \"multiple_choice\",\n    \"optCount\": 4,\n    \"options\": [\n        \"A) Options A\",\n        \"B) Options B\",\n        \"C) Options C\",\n        \"D) Options D\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/questions?token={{token}}",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 04 Feb 2022 14:11:03 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.z-SNAPSHOT)"
+						}
+					],
+					"cookie": [],
+					"body": "\"Ok\""
+				}
+			]
+		},
+		{
+			"name": "Edit question",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"theme\": \"Software Engineering\",\n    \"description\": \"Sample description\",\n    \"statement\": \"A sample software engineering question\",\n    \"pvt\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/api/questions?token={{token}}&id=61e5f020c6fb98048e451eda",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"questions"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "id",
+							"value": "61e5f020c6fb98048e451eda"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Edit question",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"theme\": \"Software Engineering\",\n    \"description\": \"Sample description\",\n    \"statement\": \"A sample software engineering question\",\n    \"pvt\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/questions?token={{token}}&id=61e5f020c6fb98048e451eda",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "id",
+									"value": "61e5f020c6fb98048e451eda"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 19 Jan 2022 19:16:22 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.z-SNAPSHOT)"
+						}
+					],
+					"cookie": [],
+					"body": "\"Ok\""
+				}
+			]
+		},
+		{
+			"name": "Delete question",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/questions?token={{token}}&id=61e84a66b9334012a906597f",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"questions"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "id",
+							"value": "61e84a66b9334012a906597f"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete question",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/questions?token={{token}}&id=61e5f020c6fb98048e451eda",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "id",
+									"value": "61e5f020c6fb98048e451eda"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 19 Jan 2022 19:16:26 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.z-SNAPSHOT)"
+						}
+					],
+					"cookie": [],
+					"body": "\"Ok\""
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "d2fad245dd1d8a4f863e3f1c32bdada723361e6f63cfddf56663e516e47347bb"
+		},
+		{
+			"key": "server",
+			"value": "localhost:8080"
+		},
+		{
+			"key": "questionId",
+			"value": "5"
+		},
+		{
+			"value": "",
+			"type": "string"
+		}
+	]
+}

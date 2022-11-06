@@ -1,0 +1,24 @@
+version: '2.1'
+
+services:
+  reprova:
+    container_name: reprova
+    build: .
+    image: gahag/reprova:v0.1
+    env_file:
+      - .env
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongo
+    image: mvertes/alpine-mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - db:/data/db
+
+volumes:
+  db:
