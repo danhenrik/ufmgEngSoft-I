@@ -4,11 +4,12 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import br.ufmg.engsoft.reprova.mime.json.Json;
-import br.ufmg.engsoft.reprova.model.Question;
-import br.ufmg.engsoft.reprova.model.Semester;
+import br.ufmg.engsoft.urna.mime.json.Json;
+import br.ufmg.engsoft.urna.model.Question;
+import br.ufmg.engsoft.urna.model.Semester;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class JsonTest {

@@ -1,9 +1,10 @@
 package br.ufmg.engsoft.reprova.tests.model;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import br.ufmg.engsoft.reprova.model.Question;
+import br.ufmg.engsoft.urna.model.Question;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class QuestionTest {
