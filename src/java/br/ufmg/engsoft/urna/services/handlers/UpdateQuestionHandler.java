@@ -1,8 +1,8 @@
 package br.ufmg.engsoft.urna.services.handlers;
 
 import br.ufmg.engsoft.urna.database.QuestionDAO;
+import br.ufmg.engsoft.urna.entities.Urna;
 import br.ufmg.engsoft.urna.mime.json.Json;
-import br.ufmg.engsoft.urna.model.Question;
 import br.ufmg.engsoft.urna.services.input.UpdateQuestionInput;
 import br.ufmg.engsoft.urna.services.interfaces.IUpdateQuestionHandler;
 import br.ufmg.engsoft.urna.services.output.UpdateQuestionOutput;
@@ -13,10 +13,10 @@ public class UpdateQuestionHandler implements IUpdateQuestionHandler {
 	
 	@Override
 	public UpdateQuestionOutput handle(UpdateQuestionInput input) {
-		Question question;
+		Urna question;
     try {
       question = new Json()
-        .parse(input.getBody(), Question.Builder.class)
+        .parse(input.getBody(), Urna.Builder.class)
         .build();
     
       if(System.getenv("MULTIPLE_CHOICE") == "false" 

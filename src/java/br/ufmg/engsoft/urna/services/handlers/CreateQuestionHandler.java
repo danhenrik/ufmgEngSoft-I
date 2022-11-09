@@ -1,8 +1,8 @@
 package br.ufmg.engsoft.urna.services.handlers;
 
 import br.ufmg.engsoft.urna.database.QuestionDAO;
+import br.ufmg.engsoft.urna.entities.Urna;
 import br.ufmg.engsoft.urna.mime.json.Json;
-import br.ufmg.engsoft.urna.model.Question;
 import br.ufmg.engsoft.urna.services.input.CreateQuestionInput;
 import br.ufmg.engsoft.urna.services.interfaces.ICreateQuestionHandler;
 import br.ufmg.engsoft.urna.services.output.CreateQuestionOutput;
@@ -13,10 +13,10 @@ public class CreateQuestionHandler implements ICreateQuestionHandler {
 
 	@Override
 	public CreateQuestionOutput handle(CreateQuestionInput input) {
-		Question question;
+		Urna question;
     try {
       question = new Json()
-      .parse(input.getBody(), Question.Builder.class)
+      .parse(input.getBody(), Urna.Builder.class)
       .build();
       
       if(System.getenv("MULTIPLE_CHOICE") == "false" 

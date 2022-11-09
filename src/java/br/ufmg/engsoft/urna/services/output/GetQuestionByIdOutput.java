@@ -1,20 +1,20 @@
 package br.ufmg.engsoft.urna.services.output;
 
-import br.ufmg.engsoft.urna.model.Question;
+import br.ufmg.engsoft.urna.entities.Urna;
 
 public class GetQuestionByIdOutput {
 
-	private Question question;
+	private Urna question;
 
-	public GetQuestionByIdOutput(Question question) {
+	public GetQuestionByIdOutput(Urna question) {
 		this.question = question;
 	}
 
-	public Question getQuestion() {
+	public Urna getQuestion() {
 		return question;
 	}
 
-	public void setQuestion(Question question) {
+	public void setQuestion(Urna question) {
 		this.question = question;
 	}
 

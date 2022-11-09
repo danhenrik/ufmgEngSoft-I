@@ -2,21 +2,21 @@ package br.ufmg.engsoft.urna.services.output;
 
 import java.util.Collection;
 
-import br.ufmg.engsoft.urna.model.Question;
+import br.ufmg.engsoft.urna.entities.Urna;
 
 public class GetQuestionsOutput {
 	
-	private Collection<Question> questions;
+	private Collection<Urna> questions;
 
-	public GetQuestionsOutput(Collection<Question> questions) {
+	public GetQuestionsOutput(Collection<Urna> questions) {
 		this.questions = questions;
 	}
 
-	public Collection<Question> getQuestions() {
+	public Collection<Urna> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(Collection<Question> questions) {
+	public void setQuestions(Collection<Urna> questions) {
 		this.questions = questions;
 	}
 

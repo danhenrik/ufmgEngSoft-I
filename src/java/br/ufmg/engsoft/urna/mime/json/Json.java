@@ -9,8 +9,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
-import br.ufmg.engsoft.urna.model.Question;
-import br.ufmg.engsoft.urna.model.Semester;
+import br.ufmg.engsoft.urna.entities.Urna;
+import br.ufmg.engsoft.urna.entities.Eleitor;
 
 
 /**
@@ -20,14 +20,14 @@ public class Json {
   /**
    * Deserializer for Semester.
    */
-  protected static class SemesterDeserializer implements JsonDeserializer<Semester> {
+  protected static class SemesterDeserializer implements JsonDeserializer<Eleitor> {
     /**
      * The semester format is:
      * "year/ref"
      * Where ref is 1 or 2.
      */
     @Override
-    public Semester deserialize(
+    public Eleitor deserialize(
       JsonElement json,
       Type typeOfT,
       JsonDeserializationContext context
@@ -39,9 +39,9 @@ public class Json {
 
       var year = Integer.parseInt(values[0]);
 
-      var ref = Semester.Reference.fromInt(Integer.parseInt(values[1]));
+      var ref = Eleitor.Reference.fromInt(Integer.parseInt(values[1]));
 
-      return new Semester(year, ref);
+      return new Eleitor(year, ref);
     }
   }
 
@@ -50,10 +50,10 @@ public class Json {
    * Deserializer for Question.Builder.
    */
   protected static class QuestionBuilderDeserializer
-    implements JsonDeserializer<Question.Builder>
+    implements JsonDeserializer<Urna.Builder>
   {
     @Override
-    public Question.Builder deserialize(
+    public Urna.Builder deserialize(
       JsonElement json,
       Type typeOfT,
       JsonDeserializationContext context
@@ -61,7 +61,7 @@ public class Json {
       var parserBuilder = new GsonBuilder();
 
       parserBuilder.registerTypeAdapter( // Question has a Semester field.
-        Semester.class,
+        Eleitor.class,
         new SemesterDeserializer()
       );
 
@@ -69,7 +69,7 @@ public class Json {
         .create()
         .fromJson(
           json.getAsJsonObject(),
-          Question.Builder.class
+          Urna.Builder.class
         );
 
       // Mongo's id property doesn't match Question.id:
@@ -103,7 +103,7 @@ public class Json {
     var parserBuilder = new GsonBuilder();
 
     parserBuilder.registerTypeAdapter(
-      Question.Builder.class,
+      Urna.Builder.class,
       new QuestionBuilderDeserializer()
     );
 

@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import br.ufmg.engsoft.urna.entities.Urna;
+import br.ufmg.engsoft.urna.entities.Eleitor;
 import br.ufmg.engsoft.urna.mime.json.Json;
-import br.ufmg.engsoft.urna.model.Question;
-import br.ufmg.engsoft.urna.model.Semester;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,19 +18,19 @@ public class JsonTest {
    */
   @Test
   void question() {
-    var question = new Question.Builder()
+    var question = new Urna.Builder()
       .id("id")
       .theme("theme")
       .description("description")
       .statement("statement")
       .record(
         Map.of(
-          new Semester(2019, Semester.Reference._1), Map.of(
+          new Eleitor(2019, Eleitor.Reference._1), Map.of(
             "tw", 50.0f,
             "tz", 49.5f,
             "tx", 51.2f
           ),
-          new Semester(2020, Semester.Reference._2), Collections.emptyMap()
+          new Eleitor(2020, Eleitor.Reference._2), Collections.emptyMap()
         )
       )
       .pvt(false)
@@ -41,7 +41,7 @@ public class JsonTest {
     var json = formatter.render(question);
 
     var questionCopy = formatter
-      .parse(json, Question.Builder.class)
+      .parse(json, Urna.Builder.class)
       .build();
 
     assertTrue(

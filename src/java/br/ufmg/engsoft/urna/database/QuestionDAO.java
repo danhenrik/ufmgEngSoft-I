@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 import com.mongodb.client.MongoCollection;
 
+import br.ufmg.engsoft.urna.entities.Urna;
 import br.ufmg.engsoft.urna.mime.json.Json;
-import br.ufmg.engsoft.urna.model.Question;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
@@ -75,7 +75,7 @@ public class QuestionDAO {
    * @throws IllegalArgumentException  if any parameter is null
    * @throws IllegalArgumentException  if the given document is an invalid Question
    */
-  protected Question parseDoc(Document document) {
+  protected Urna parseDoc(Document document) {
     if (document == null)
       throw new IllegalArgumentException("document mustn't be null");
 
@@ -85,7 +85,7 @@ public class QuestionDAO {
 
     try {
       var question = json
-        .parse(doc, Question.Builder.class)
+        .parse(doc, Urna.Builder.class)
         .build();
 
       logger.info("Parsed question: " + question);
@@ -105,7 +105,7 @@ public class QuestionDAO {
    * @return The question, or null if no such question.
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public Question get(String id) {
+  public Urna get(String id) {
     if (id == null)
       throw new IllegalArgumentException("id mustn't be null");
 
@@ -130,7 +130,7 @@ public class QuestionDAO {
    *         empty.
    * @throws IllegalArgumentException  if there is an invalid Question
    */
-  public Collection<Question> list(String theme, Boolean pvt) {
+  public Collection<Urna> list(String theme, Boolean pvt) {
     var filters =
       Arrays.asList(
         theme == null ? null : eq("theme", theme),
@@ -144,7 +144,7 @@ public class QuestionDAO {
       ? this.collection.find()
       : this.collection.find(and(filters));
 
-    var result = new ArrayList<Question>();
+    var result = new ArrayList<Urna>();
 
     doc.projection(fields(exclude("statement")))
       .map(this::parseDoc)
@@ -160,7 +160,7 @@ public class QuestionDAO {
    * @return Whether the question was successfully added.
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public boolean add(Question question) {
+  public boolean add(Urna question) {
     if (question == null)
       throw new IllegalArgumentException("question mustn't be null");
 
@@ -218,7 +218,7 @@ public class QuestionDAO {
    * @return Whether the question was successfully updated.
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public boolean update(String id,Question question) {
+  public boolean update(String id,Urna question) {
     if (id == null)
       throw new IllegalArgumentException("id mustn't be null");
     if (question == null)
@@ -285,7 +285,7 @@ public class QuestionDAO {
     if (id == null)
       throw new IllegalArgumentException("id mustn't be null");
 
-    Question question = this.get(id);
+    Urna question = this.get(id);
     if(question != null) {
        this.collection.deleteOne(
         eq(new ObjectId(id))
