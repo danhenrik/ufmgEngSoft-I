@@ -1,70 +1,78 @@
 package br.ufmg.engsoft.urna.entities;
 
+import java.util.UUID;
+
 /**
- * O tipo Candidato.
+ * O tipo PessoaTSE.
  */
 public class PessoaTSE {
 
   /**
-   * O ID do Candidato.
+   * O ID do PessoaTSE.
    * Quando null, o ID sera automaticamente gerado pelo banco de dados.
    */
-  private final String id;
+  protected final UUID id;
 
   /**
-   * O nome do Candidato.
+   * O usuario do PessoaTSE.
    */
-  private final String nome;
+  protected final String usuario;
 
   /**
-   * O número de votos recebidos pelo Candidato.
+   * O número de votos recebidos pelo PessoaTSE.
    */
-  protected final int numVotos;
+  protected final String senha;
 
   /**
-   * Builder de Candidato.
+   * Builder de PessoaTSE.
    */
   public static class Builder {
-    protected String id;
-    protected String nome;
+    protected String usuario;
+    protected String senha;
 
-    public Builder id(String id) {
-      this.id = id;
+    public Builder usuario(String usuario) {
+      this.usuario = usuario;
       return this;
     }
 
-    public Builder nome(String nome) {
-      this.nome = nome;
+    public Builder senhna(String senha) {
+      this.senha = senha;
       return this;
     }
 
     /**
-     * Constrói o Candidato.
+     * Constrói o PessoaTSE.
      * 
      * @throws IllegalArgumentException se nenhum parâmetro é válido
      */
-    public Candidato build() {
-      if (nome == null)
-        throw new IllegalArgumentException("nome mustn't be null");
+    public PessoaTSE build() {
+      if (usuario == null)
+        throw new IllegalArgumentException("usuario mustn't be null");
 
-      if (nome.isEmpty())
-        throw new IllegalArgumentException("nome mustn't be empty");
+      if (usuario.isEmpty())
+        throw new IllegalArgumentException("usuario mustn't be empty");
 
-      return new Candidato(
-          this.id,
-          this.nome);
+      if (senha == null)
+        throw new IllegalArgumentException("senha mustn't be null");
+
+      if (senha.isEmpty())
+        throw new IllegalArgumentException("senha mustn't be empty");
+
+      return new PessoaTSE(
+          this.usuario,
+          this.senha);
     }
   }
 
   /**
    * Protected constructor, deve ser usado apenas pelo builder.
    */
-  protected Candidato(
-      String id,
-      String nome) {
-    this.id = id;
-    this.nome = nome;
-    this.numVotos = 0;
+  protected PessoaTSE(
+      String usuario,
+      String senha) {
+    this.id = UUID.randomUUID();
+    this.usuario = usuario;
+    this.senha = senha;
   }
 
   /**
@@ -76,27 +84,27 @@ public class PessoaTSE {
     if (obj == this)
       return true;
 
-    if (!(obj instanceof Candidato))
+    if (!(obj instanceof PessoaTSE))
       return false;
 
-    var candidato = (Candidato) obj;
+    var pessoaTSE = (PessoaTSE) obj;
 
-    return this.id.equals(candidato.id)
-        && this.nome.equals(candidato.nome)
-        && this.numVotos == candidato.numVotos;
+    return this.id.equals(pessoaTSE.id)
+        && this.usuario.equals(pessoaTSE.usuario)
+        && this.senha == pessoaTSE.senha;
   }
 
   /**
-   * Converte um Candidato para String, utilizado para visualização.
+   * Converte um PessoaTSE para String, utilizado para visualização.
    */
   @Override
   public String toString() {
     var builder = new StringBuilder();
 
-    builder.append("Candidato:\n");
+    builder.append("PessoaTSE:\n");
     builder.append("  id: " + this.id + "\n");
-    builder.append("  nome: " + this.nome + "\n");
-    builder.append("  numVotos: " + this.numVotos + "\n");
+    builder.append("  usuario: " + this.usuario + "\n");
+    builder.append("  senha: " + this.senha + "\n");
 
     return builder.toString();
   }

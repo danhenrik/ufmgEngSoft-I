@@ -1,21 +1,14 @@
 package br.ufmg.engsoft.urna.entities;
 
-// import java.util.Map;
+import java.util.UUID;
 
-// import java.util.Objects;
-// import java.util.HashMap;
-
-/**
- * A semester class.
- * The semester is composed of an year and a reference (1 or 2).
- */
 public class Eleitor {
 
   /**
    * O ID do Eleitor.
    * Quando null, o ID sera automaticamente gerado pelo banco de dados.
    */
-  private final String id;
+  private final UUID id;
 
   /**
    * O Titulo de eleitor de um eleitor.
@@ -32,6 +25,7 @@ public class Eleitor {
    */
   private final String estado;
 
+  
   public final void votar(int numeroCandidato) {
 
   }
@@ -39,11 +33,15 @@ public class Eleitor {
   /**
    * Protected constructor, deve ser usado apenas pelo builder
    */
-  protected Eleitor(String id, String tituloDeEleitor, String nome, String estado) {
+  protected Eleitor(
+      String tituloDeEleitor,
+      String nome,
+      String estado) {
+
     if (tituloDeEleitor == null)
       throw new IllegalArgumentException("O título de eleitor não pode ser nulo");
 
-    this.id = id;
+    this.id = UUID.randomUUID();
     this.tituloDeEleitor = tituloDeEleitor;
     this.nome = nome;
     this.estado = estado;
@@ -53,15 +51,9 @@ public class Eleitor {
    * Builder de Candidato.
    */
   public static class Builder {
-    protected String id;
     protected String tituloDeEleitor;
     protected String nome;
     protected String estado;
-
-    public Builder id(String id) {
-      this.id = id;
-      return this;
-    }
 
     public Builder tituloDeEleitor(String tituloDeEleitor) {
       this.tituloDeEleitor = tituloDeEleitor;
@@ -91,7 +83,6 @@ public class Eleitor {
         throw new IllegalArgumentException("theme mustn't be empty");
 
       return new Eleitor(
-          this.id,
           this.tituloDeEleitor,
           this.nome,
           this.estado);

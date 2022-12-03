@@ -8,23 +8,23 @@ public class Presidente extends Candidato {
   /**
    * Número do Presidente.
    */
-  private final int numero;
+  protected final int numero;
 
   /**
    * Builder de Presidente.
    */
   public static class Builder {
-    protected String id;
     protected String nome;
+    protected String partido;
     protected int numero;
-
-    public Builder id(String id) {
-      this.id = id;
-      return this;
-    }
 
     public Builder nome(String nome) {
       this.nome = nome;
+      return this;
+    }
+
+    public Builder partido(String partido) {
+      this.partido = partido;
       return this;
     }
 
@@ -42,9 +42,21 @@ public class Presidente extends Candidato {
       if (numero <= 0)
         throw new IllegalArgumentException("numero mustn't be less than or equal to 0");
 
+      if (nome == null)
+        throw new IllegalArgumentException("nome mustn't be null");
+
+      if (nome.isEmpty())
+        throw new IllegalArgumentException("nome mustn't be empty");
+
+      if (partido == null)
+        throw new IllegalArgumentException("partido mustn't be null");
+
+      if (partido.isEmpty())
+        throw new IllegalArgumentException("partido mustn't be empty");
+
       return new Presidente(
-          this.id,
           this.nome,
+          this.partido,
           this.numero);
     }
   }
@@ -53,10 +65,10 @@ public class Presidente extends Candidato {
    * Protected constructor, deve ser usado apenas pelo builder.
    */
   protected Presidente(
-      String id,
       String nome,
+      String partido,
       int numero) {
-    super(id, nome);
+    super(nome, partido);
     this.numero = numero;
   }
 
@@ -85,8 +97,10 @@ public class Presidente extends Candidato {
     var builder = new StringBuilder();
 
     builder.append("Deputado Federal:\n");
-    builder.append("  id: " + super.numVotos + "\n");
+    builder.append("  id: " + super.id + "\n");
     builder.append("  numero: " + this.numero + "\n");
+    builder.append("  partido: " + this.partido + "\n");
+    builder.append("  numVotos: " + super.numVotos + "\n");
 
     return builder.toString();
   }

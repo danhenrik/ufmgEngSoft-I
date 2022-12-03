@@ -6,31 +6,31 @@ package br.ufmg.engsoft.urna.entities;
 public class DeputadoFederal extends Candidato {
 
   /**
-   * Número do Candidato.
+   * Número do DeputadoFederal.
    */
-  private final int numero;
+  protected final int numero;
 
   /**
-   * Estado do Candidato.
+   * Estado do DeputadoFederal.
    */
-  private final String estado;
+  protected final String estado;
 
   /**
    * Builder de DeputadoFederal.
    */
   public static class Builder {
-    protected String id;
     protected String nome;
+    protected String partido;
     protected int numero;
     protected String estado;
 
-    public Builder id(String id) {
-      this.id = id;
+    public Builder nome(String nome) {
+      this.nome = nome;
       return this;
     }
 
-    public Builder nome(String nome) {
-      this.nome = nome;
+    public Builder partido(String partido) {
+      this.partido = partido;
       return this;
     }
 
@@ -45,7 +45,7 @@ public class DeputadoFederal extends Candidato {
     }
 
     /**
-     * Constrói o candidato.
+     * Constrói o DeputadoFederal.
      * 
      * @throws IllegalArgumentException se nenhum parâmetro é válido
      */
@@ -53,18 +53,27 @@ public class DeputadoFederal extends Candidato {
       if (numero <= 0)
         throw new IllegalArgumentException("numero mustn't be less than or equal to 0");
 
+      if (nome == null)
+        throw new IllegalArgumentException("nome mustn't be null");
+
+      if (nome.isEmpty())
+        throw new IllegalArgumentException("nome mustn't be empty");
+
+      if (partido == null)
+        throw new IllegalArgumentException("partido mustn't be null");
+
+      if (partido.isEmpty())
+        throw new IllegalArgumentException("partido mustn't be empty");
+
       if (estado == null)
         throw new IllegalArgumentException("estado mustn't be null");
 
       if (estado.isEmpty())
         throw new IllegalArgumentException("estado mustn't be empty");
 
-      if (estado.length() != 2)
-        throw new IllegalArgumentException("estado mustn't be bigger than 2 characters");
-
       return new DeputadoFederal(
-          this.id,
           this.nome,
+          this.partido,
           this.numero,
           this.estado);
     }
@@ -74,11 +83,11 @@ public class DeputadoFederal extends Candidato {
    * Protected constructor, deve ser usado apenas pelo builder.
    */
   protected DeputadoFederal(
-      String id,
       String nome,
+      String partido,
       int numero,
       String estado) {
-    super(id, nome);
+    super(nome, partido);
     this.numero = numero;
     this.estado = estado;
   }
@@ -97,8 +106,8 @@ public class DeputadoFederal extends Candidato {
 
     var deputadoFederal = (DeputadoFederal) obj;
 
-    return this.numero == deputadoFederal.numero &&
-        this.estado.equals(deputadoFederal.estado);
+    return this.numero == deputadoFederal.numero
+        && this.estado.equals(deputadoFederal.estado);
   }
 
   /**
@@ -109,9 +118,11 @@ public class DeputadoFederal extends Candidato {
     var builder = new StringBuilder();
 
     builder.append("Deputado Federal:\n");
-    builder.append("  id: " + super.numVotos + "\n");
+    builder.append("  id: " + super.id + "\n");
     builder.append("  numero: " + this.numero + "\n");
+    builder.append("  partido: " + this.partido + "\n");
     builder.append("  estado: " + this.estado + "\n");
+    builder.append("  numVotos: " + super.numVotos + "\n");
 
     return builder.toString();
   }

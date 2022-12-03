@@ -1,5 +1,7 @@
 package br.ufmg.engsoft.urna.entities;
 
+import java.util.UUID;
+
 /**
  * O tipo Candidato.
  */
@@ -9,12 +11,17 @@ public class Candidato {
    * O ID do Candidato.
    * Quando null, o ID sera automaticamente gerado pelo banco de dados.
    */
-  private final String id;
+  protected final UUID id;
 
   /**
    * O nome do Candidato.
    */
-  private final String nome;
+  public final String nome;
+
+  /**
+   * O partido do Candidato.
+   */
+  public final String partido;
 
   /**
    * O número de votos recebidos pelo Candidato.
@@ -25,16 +32,16 @@ public class Candidato {
    * Builder de Candidato.
    */
   public static class Builder {
-    protected String id;
     protected String nome;
-
-    public Builder id(String id) {
-      this.id = id;
-      return this;
-    }
+    protected String partido;
 
     public Builder nome(String nome) {
       this.nome = nome;
+      return this;
+    }
+
+    public Builder partido(String partido) {
+      this.partido = partido;
       return this;
     }
 
@@ -50,9 +57,15 @@ public class Candidato {
       if (nome.isEmpty())
         throw new IllegalArgumentException("nome mustn't be empty");
 
+      if (partido == null)
+        throw new IllegalArgumentException("partido mustn't be null");
+
+      if (partido.isEmpty())
+        throw new IllegalArgumentException("partido mustn't be empty");
+
       return new Candidato(
-          this.id,
-          this.nome);
+          this.nome,
+          this.partido);
     }
   }
 
@@ -60,10 +73,11 @@ public class Candidato {
    * Protected constructor, deve ser usado apenas pelo builder.
    */
   protected Candidato(
-      String id,
-      String nome) {
-    this.id = id;
+      String nome,
+      String partido) {
+    this.id = UUID.randomUUID();
     this.nome = nome;
+    this.partido = partido;
     this.numVotos = 0;
   }
 
@@ -82,6 +96,7 @@ public class Candidato {
     var candidato = (Candidato) obj;
 
     return this.id.equals(candidato.id)
+        && this.partido.equals(candidato.partido)
         && this.nome.equals(candidato.nome)
         && this.numVotos == candidato.numVotos;
   }
@@ -96,6 +111,7 @@ public class Candidato {
     builder.append("Candidato:\n");
     builder.append("  id: " + this.id + "\n");
     builder.append("  nome: " + this.nome + "\n");
+    builder.append("  partido: " + this.partido + "\n");
     builder.append("  numVotos: " + this.numVotos + "\n");
 
     return builder.toString();
