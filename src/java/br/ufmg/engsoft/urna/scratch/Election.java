@@ -25,22 +25,9 @@ public class Election {
   // Na prática guardaria uma hash do eleitor
   private Map<Voter, Integer> votersFederalDeputy = new HashMap<Voter, Integer>();
 
-  // private Map<President, Integer> presidentsVotes = new HashMap<President,
-  // Integer>();
-
-  // private Map<FederalDeputy, Integer> federalDeputysVotes = new
-  // HashMap<FederalDeputy, Integer>();
-
   private Map<Integer, President> presidentCandidates = new HashMap<Integer, President>();
 
   private Map<String, FederalDeputy> federalDeputyCandidates = new HashMap<String, FederalDeputy>();
-
-  // private Map<Voter, Integer> federalDeputyVoters = new HashMap<Voter,
-  // Integer>();
-
-  // public int getProtestVotes() {
-  // return protestVote;
-  // }
 
   public static class Builder {
     protected String password;
@@ -57,8 +44,7 @@ public class Election {
       if (password.isEmpty())
         throw new IllegalArgumentException("password mustn't be empty");
 
-      return new Election(
-          this.password);
+      return new Election(this.password);
     }
   }
 
@@ -70,20 +56,23 @@ public class Election {
     this.protestVote = 0;
   }
 
+  private Boolean isValid(String password) {
+    return this.password == password;
+  }
+
   public void computeVote(Candidate candidate, Voter voter) {
     if (candidate instanceof President) {
       if (this.votersPresident.get(voter) >= 1)
         throw new IllegalAccessError("Cannot vote more than once");
+
       candidate.numVotes++;
       votersPresident.put(voter, 1);
-      return;
-    }
-    if (candidate instanceof FederalDeputy) {
+    } else if (candidate instanceof FederalDeputy) {
       if (this.votersFederalDeputy.get(voter) >= 2)
         throw new IllegalAccessError("Cannot vote more than once");
+
       candidate.numVotes++;
       votersFederalDeputy.put(voter, votersFederalDeputy.get(voter) + 1);
-      return;
     }
   };
 
@@ -91,43 +80,52 @@ public class Election {
     if (type.equals("President")) {
       if (this.votersPresident.get(voter) >= 1)
         throw new IllegalAccessError("Cannot vote more than once");
+
       this.nullVotes++;
       votersPresident.put(voter, 1);
     } else if (type.equals("FederalDeputy")) {
       if (this.votersFederalDeputy.get(voter) >= 2)
         throw new IllegalAccessError("Cannot vote more than once");
+
       this.nullVotes++;
       votersFederalDeputy.put(voter, votersFederalDeputy.get(voter) + 1);
     }
   }
-
-  // public int getNullVotes() {
-  // return nullVotes;
-  // }
 
   public void computeProtestVote(String type, Voter voter) {
     if (type.equals("President")) {
       if (this.votersPresident.get(voter) >= 1)
         throw new IllegalAccessError("Cannot vote more than once");
+
       this.protestVote++;
       votersPresident.put(voter, 1);
     } else if (type.equals("FederalDeputy")) {
       if (this.votersFederalDeputy.get(voter) >= 2)
         throw new IllegalAccessError("Cannot vote more than once");
+
       this.protestVote++;
       votersFederalDeputy.put(voter, votersFederalDeputy.get(voter) + 1);
     }
   }
 
-  public boolean getStatus() {
+  public boolean getStatus(String password) {
+    if (!isValid(password))
+      throw new IllegalAccessError("invalid password");
+      
     return status;
   }
 
-  public void start() {
+  public void start(String password) {
+    if (!isValid(password))
+      throw new IllegalAccessError("invalid password");
+
     this.status = true;
   }
 
-  public void finish() {
+  public void finish(String password) {
+    if (!isValid(password))
+      throw new IllegalAccessError("invalid password");
+
     this.status = false;
   }
 
@@ -135,7 +133,10 @@ public class Election {
     return this.presidentCandidates.get(number);
   }
 
-  public void addPresidentCandidate(President candidate) {
+  public void addPresidentCandidate(President candidate, String password) {
+    if (!isValid(password))
+      throw new IllegalAccessError("invalid password");
+
     this.presidentCandidates.put(candidate.number, candidate);
   }
 
@@ -143,11 +144,17 @@ public class Election {
     return this.federalDeputyCandidates.get(state + number);
   }
 
-  public void addFederalDeputyCandidate(FederalDeputy candidate) {
+  public void addFederalDeputyCandidate(FederalDeputy candidate, String password) {
+    if (!isValid(password))
+      throw new IllegalAccessError("invalid password");
+
     this.federalDeputyCandidates.put(candidate.state + candidate.number, candidate);
   }
 
-  public String showResults() {
+  public String showResults(String password) {
+    if (!isValid(password))
+      throw new IllegalAccessError("invalid password");
+
     var presidentRank = new ArrayList<President>();
     var federalDeputyRank = new ArrayList<FederalDeputy>();
 
