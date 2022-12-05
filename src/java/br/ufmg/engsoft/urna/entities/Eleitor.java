@@ -3,36 +3,27 @@ package br.ufmg.engsoft.urna.entities;
 import java.util.UUID;
 
 public class Eleitor {
+  public final UUID id;
 
-  /**
-   * O ID do Eleitor.
-   * Quando null, o ID sera automaticamente gerado pelo banco de dados.
-   */
-  private final UUID id;
+  public final String tituloDeEleitor;
 
-  /**
-   * O Titulo de eleitor de um eleitor.
-   */
-  private final String tituloDeEleitor;
+  public final String nome;
 
-  /**
-   * O nome de um eleitor.
-   */
-  private final String nome;
-
-  /**
-   * O estado de eleitor de um eleitor.
-   */
   private final String estado;
 
-  
-  public final void votar(int numeroCandidato) {
+  private int votes;
 
+  public final Boolean votar(Urna urna, int numeroCandidato, Boolean nulo) {
+    Boolean voted = false;
+    // Limita a 3 votos (1 presidente e 2 deputado)
+    if (votes < 3) {
+      voted = urna.registrarVoto(numeroCandidato, this.estado, nulo);
+    }
+    if (voted)
+      this.votes++;
+    return voted;
   }
 
-  /**
-   * Protected constructor, deve ser usado apenas pelo builder
-   */
   protected Eleitor(
       String tituloDeEleitor,
       String nome,
@@ -45,11 +36,9 @@ public class Eleitor {
     this.tituloDeEleitor = tituloDeEleitor;
     this.nome = nome;
     this.estado = estado;
+    this.votes = 0;
   }
 
-  /**
-   * Builder de Candidato.
-   */
   public static class Builder {
     protected String tituloDeEleitor;
     protected String nome;
@@ -70,11 +59,6 @@ public class Eleitor {
       return this;
     }
 
-    /**
-     * Constrói o Candidato.
-     * 
-     * @throws IllegalArgumentException se nenhum parâmetro é válido
-     */
     public Eleitor build() {
       if (nome == null)
         throw new IllegalArgumentException("theme mustn't be null");
@@ -87,35 +71,5 @@ public class Eleitor {
           this.nome,
           this.estado);
     }
-
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this)
-      return true;
-
-    if (!(obj instanceof Eleitor))
-      return false;
-
-    var eleitor = (Eleitor) obj;
-
-    return this.tituloDeEleitor == eleitor.tituloDeEleitor;
-  }
-
-  /**
-   * Converte um Eleitor para String, utilizado para visualização.
-   */
-  @Override
-  public String toString() {
-    var builder = new StringBuilder();
-
-    builder.append("Eleitor:\n");
-    builder.append("  id: " + this.id + "\n");
-    builder.append("  titulo de eleitor: " + this.tituloDeEleitor + "\n");
-    builder.append("  nome: " + this.nome + "\n");
-    builder.append("  numVotos: " + this.estado + "\n");
-
-    return builder.toString();
   }
 }

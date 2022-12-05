@@ -4,13 +4,17 @@ package br.ufmg.engsoft.urna.entities;
  * O tipo FuncionarioTSE.
  */
 public class FuncionarioTSE extends PessoaTSE {
-
-  public void adicionarCandidato() {
-
+  public void adicionarCandidato(Candidato candidato, Eleicao eleicao) {
+    if (candidato instanceof Presidente) {
+      eleicao.cadastrarCandidatoPresidente((Presidente) candidato);
+    }
+    if (candidato instanceof DeputadoFederal) {
+      eleicao.cadastrarCandidatoDeputadoFederal((DeputadoFederal) candidato);
+    }
   }
 
   public void removerCandidato() {
-
+    
   }
 
   public void classificarCandidato() {

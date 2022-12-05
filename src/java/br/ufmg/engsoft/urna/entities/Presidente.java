@@ -6,11 +6,6 @@ package br.ufmg.engsoft.urna.entities;
 public class Presidente extends Candidato {
 
   /**
-   * Número do Presidente.
-   */
-  protected final int numero;
-
-  /**
    * Builder de Presidente.
    */
   public static class Builder {
@@ -68,8 +63,7 @@ public class Presidente extends Candidato {
       String nome,
       String partido,
       int numero) {
-    super(nome, partido);
-    this.numero = numero;
+    super(nome, partido, numero);
   }
 
   /**

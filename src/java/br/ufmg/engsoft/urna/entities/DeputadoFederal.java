@@ -1,23 +1,10 @@
 package br.ufmg.engsoft.urna.entities;
 
-/**
- * O tipo DeputadoFederal.
- */
+import java.util.Set;
+
 public class DeputadoFederal extends Candidato {
-
-  /**
-   * Número do DeputadoFederal.
-   */
-  protected final int numero;
-
-  /**
-   * Estado do DeputadoFederal.
-   */
   protected final String estado;
 
-  /**
-   * Builder de DeputadoFederal.
-   */
   public static class Builder {
     protected String nome;
     protected String partido;
@@ -44,11 +31,6 @@ public class DeputadoFederal extends Candidato {
       return this;
     }
 
-    /**
-     * Constrói o DeputadoFederal.
-     * 
-     * @throws IllegalArgumentException se nenhum parâmetro é válido
-     */
     public DeputadoFederal build() {
       if (numero <= 0)
         throw new IllegalArgumentException("numero mustn't be less than or equal to 0");
@@ -71,6 +53,12 @@ public class DeputadoFederal extends Candidato {
       if (estado.isEmpty())
         throw new IllegalArgumentException("estado mustn't be empty");
 
+      Set<String> estadosValidos = Set.of("AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG",
+          "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO");
+
+      if (!estadosValidos.contains(estado))
+        throw new IllegalArgumentException("estado is invalid");
+
       return new DeputadoFederal(
           this.nome,
           this.partido,
@@ -79,51 +67,12 @@ public class DeputadoFederal extends Candidato {
     }
   }
 
-  /**
-   * Protected constructor, deve ser usado apenas pelo builder.
-   */
   protected DeputadoFederal(
       String nome,
       String partido,
       int numero,
       String estado) {
-    super(nome, partido);
-    this.numero = numero;
+    super(nome, partido, numero);
     this.estado = estado;
-  }
-
-  /**
-   * Comparador de igualdade.
-   * Por mais que a classe tenha um id sua comparação é feita em todos os campos.
-   */
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this)
-      return true;
-
-    if (!(obj instanceof DeputadoFederal))
-      return false;
-
-    var deputadoFederal = (DeputadoFederal) obj;
-
-    return this.numero == deputadoFederal.numero
-        && this.estado.equals(deputadoFederal.estado);
-  }
-
-  /**
-   * Converte um DeputadoFederal para String, utilizado para visualização.
-   */
-  @Override
-  public String toString() {
-    var builder = new StringBuilder();
-
-    builder.append("Deputado Federal:\n");
-    builder.append("  id: " + super.id + "\n");
-    builder.append("  numero: " + this.numero + "\n");
-    builder.append("  partido: " + this.partido + "\n");
-    builder.append("  estado: " + this.estado + "\n");
-    builder.append("  numVotos: " + super.numVotos + "\n");
-
-    return builder.toString();
   }
 }
