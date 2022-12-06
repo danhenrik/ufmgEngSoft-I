@@ -42,7 +42,7 @@ function createRandomVoter() {
 
 const voters = new Array(500).fill(null).map(() => createRandomVoter());
 
-let str = '';
+let str = '123456789012,Engenharia de Software Tester,MG\n';
 voters.forEach((voter) => {
   str += `${voter.electoralCard},${voter.name},${voter.state}\n`;
 });

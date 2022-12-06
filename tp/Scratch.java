@@ -5,21 +5,18 @@ import java.util.Scanner;
 import java.util.Map;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.rmi.server.ExportException;
-import java.io.FileReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 
 import static java.lang.System.exit;
 
 public class Scratch {
-  private static BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
+  private static final BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
 
   private static boolean exit = false;
 
-  private static Map<String, TSEProfessional> TSEMap = new HashMap<>();
+  private static final Map<String, TSEProfessional> TSEMap = new HashMap<>();
 
-  private static Map<String, Voter> VoterMap = new HashMap<>();
+  private static final Map<String, Voter> VoterMap = new HashMap<>();
 
   private static Election currentElection;
 
@@ -31,7 +28,7 @@ public class Scratch {
     try {
       return scanner.readLine();
     } catch (Exception e) {
-      print("Erro na leitura de entrada, digite novamente");
+      print("\nErro na leitura de entrada, digite novamente");
       return readString();
       // return "";
     }
@@ -41,7 +38,7 @@ public class Scratch {
     try {
       return Integer.parseInt(readString());
     } catch (Exception e) {
-      print("Erro na leitura de entrada, digite novamente");
+      print("\nErro na leitura de entrada, digite novamente");
       return readInt();
       // return -1;
     }
@@ -56,32 +53,32 @@ public class Scratch {
         print("(0) Fechar aplicação");
         int command = readInt();
         switch (command) {
-          case 1 -> startVoter();
-          case 2 -> startTSE();
+          case 1 -> voterMenu();
+          case 2 -> tseMenu();
           case 0 -> exit = true;
           default -> print("Comando inválido\n");
         }
+        print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
       }
     } catch (Exception e) {
-      print("Error: " + e.getMessage() + "\n");
+      print("Erro inesperado\n");
     }
   }
 
   private static Voter getVoter() {
-    print("Insira seu título de eleitor");
+    print("Insira seu título de eleitor:");
     String electoralCard = readString();
     Voter voter = VoterMap.get(electoralCard);
     if (voter == null) {
       print("Eleitor não encontrado, por favor confirme se a entrada está correta e tente novamente");
     } else {
       print("Olá, você é " + voter.name + " de " + voter.state + "?\n");
-      print("(1) Sim\n(2) Não\n");
+      print("(1) Sim\n(2) Não");
       int command = readInt();
       if (command == 1)
         return voter;
       else if (command == 2) {
         print("Ok, você será redirecionado para o menu inicial");
-        print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
       }
     }
     return null;
@@ -89,144 +86,148 @@ public class Scratch {
 
   private static boolean votePresident(Voter voter) {
     print("Digite o número do candidato escolhido por você para presidente:");
-    try {
-      String vote = readString();
-      // Branco
-      if (vote.equals("br")) {
-        print("Você está votando branco\n");
-        print("(1) Confirmar\n(2) Mudar voto\n");
-        int confirm = readInt();
-        if (confirm == 1) {
-          voter.vote(0, currentElection, "President", true);
-          return true;
-
-        } else
-          votePresident(voter);
-      } else {
-        try {
-          int voteNumber = Integer.parseInt(vote);
-          // Nulo
-          if (voteNumber == 0) {
-            print("Você está votando nulo\n");
-            print("(1) Confirmar\n(2) Mudar voto\n");
-            int confirm = readInt();
-            if (confirm == 1) {
-              voter.vote(0, currentElection, "President", false);
-              return true;
-            } else
-              votePresident(voter);
-          }
-
-          // Normal
-          President candidate = currentElection.getPresidentByNumber(voteNumber);
-          print(candidate.name + " do " + candidate.party + "\n");
-          print("(1) Confirmar\n(2) Mudar voto\n");
+    String vote = readString();
+    // Branco
+    if (vote.equals("br")) {
+      print("Você está votando branco\n");
+      print("(1) Confirmar\n(2) Mudar voto");
+      int confirm = readInt();
+      if (confirm == 1) {
+        voter.vote(0, currentElection, "President", true);
+        print("Voto registrado!");
+        return true;
+      } else
+        votePresident(voter);
+    } else {
+      try {
+        int voteNumber = Integer.parseInt(vote);
+        // Nulo
+        if (voteNumber == 0) {
+          print("Você está votando nulo\n");
+          print("(1) Confirmar\n(2) Mudar voto");
           int confirm = readInt();
           if (confirm == 1) {
-            voter.vote(voteNumber, currentElection, "President", false);
+            voter.vote(0, currentElection, "President", false);
             return true;
-          } else if (confirm == 2)
+          } else
             votePresident(voter);
-        } catch (Exception e) {
-          print("Entrada inválida");
-          print(e.getMessage());
-          return false;
         }
+
+        // Normal
+        President candidate = currentElection.getPresidentByNumber(voteNumber);
+        print(candidate.name + " do " + candidate.party + "\n");
+        print("(1) Confirmar\n(2) Mudar voto");
+        int confirm = readInt();
+        if (confirm == 1) {
+          voter.vote(voteNumber, currentElection, "President", false);
+          return true;
+        } else if (confirm == 2)
+          votePresident(voter);
+      } catch (Exception e) {
+        print(e.getMessage());
+        print("Entrada inválida");
+        return false;
       }
-      return true;
-    } catch (Exception e) {
-      print("Não foi possível registrar seu voto");
-      print(e.getMessage());
-      return false;
     }
+    return true;
   }
 
   private static boolean voteFederalDeputy(Voter voter, int counter) {
     print("Digite o número do " + counter + "º candidato escolhido por você para deputado federal:\n");
-    try {
-      String vote = readString();
-      // Branco
-      if (vote.equals("br")) {
-        print("Você está votando branco\n");
-        print("(1) Confirmar\n (2) Mudar voto\n");
-        int confirm = readInt();
-        if (confirm == 1) {
-          voter.vote(0, currentElection, "FederalDeputy", true);
-          return true;
-
-        } else
-          voteFederalDeputy(voter, counter);
-      } else {
-        try {
-          int voteNumber = Integer.parseInt(vote);
-          // Nulo
-          if (voteNumber == 0) {
-            print("Você está votando nulo\n");
-            print("(1) Confirmar\n (2) Mudar voto\n");
-            int confirm = readInt();
-            if (confirm == 1) {
-              voter.vote(0, currentElection, "FederalDeputy", false);
-              return true;
-            } else
-              voteFederalDeputy(voter, counter);
-          }
-
-          // Normal
-          FederalDeputy candidate = currentElection.getFederalDeputyByNumber(voter.state, voteNumber);
-          print(candidate.name + " do " + candidate.party + "(" + ((FederalDeputy) candidate).state + ")\n");
-          print("(1) Confirmar\n (2) Mudar voto\n");
+    String vote = readString();
+    // Branco
+    if (vote.equals("br")) {
+      print("Você está votando branco\n");
+      print("(1) Confirmar\n(2) Mudar voto");
+      int confirm = readInt();
+      if (confirm == 1) {
+        voter.vote(0, currentElection, "FederalDeputy", true);
+        print("Voto registrado!");
+        return true;
+      } else
+        voteFederalDeputy(voter, counter);
+    } else {
+      try {
+        int voteNumber = Integer.parseInt(vote);
+        // Nulo
+        if (voteNumber == 0) {
+          print("Você está votando nulo\n");
+          print("(1) Confirmar\n(2) Mudar voto");
           int confirm = readInt();
           if (confirm == 1) {
-            voter.vote(voteNumber, currentElection, "FederalDeputy", false);
+            voter.vote(0, currentElection, "FederalDeputy", false);
             return true;
-          } else if (confirm == 2)
+          } else
             voteFederalDeputy(voter, counter);
-        } catch (Exception e) {
-          print("Entrada inválida");
-          print(e.getMessage());
-          return false;
         }
+
+        // Normal
+        FederalDeputy candidate = currentElection.getFederalDeputyByNumber(voter.state, voteNumber);
+        print(candidate.name + " do " + candidate.party + "(" + candidate.state + ")\n");
+        print("(1) Confirmar\n(2) Mudar voto");
+        int confirm = readInt();
+        print("Passou do confirm");
+        print(""+confirm);
+        if (confirm == 1) {
+          voter.vote(voteNumber, currentElection, "FederalDeputy", false);
+          return true;
+        } else if (confirm == 2)
+          voteFederalDeputy(voter, counter);
+      } catch (Exception e) {
+        print("Entrada inválida");
+        print(e.getMessage());
+        return false;
       }
-      return true;
-    } catch (Exception e) {
-      print("Não foi possível registrar seu voto");
+    }
+    return true;
+
+  }
+
+  private static void voterMenu() {
+    try {
+      print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+      if (!currentElection.getStatus()) {
+        print("A eleição ainda não foi inicializada, verifique com um funcionário do TSE");
+        return;
+      }
+
+      Voter voter = getVoter();
+      if (voter == null)
+        return;
+      print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+
+      print("Vamos começar!\n");
+      print(
+          "OBS:\n- A partir de agora caso você queira votar nulo você deve usar um numero composto de 0 (00 e 0000)\n- A partir de agora caso você queira votar branco você deve escrever br\n");
+      print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+
+      if (votePresident(voter))
+        print("Voto para presidente registrado com sucesso");
+      print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+
+      if (voteFederalDeputy(voter, 1))
+        print("Primeiro voto para deputado federal registrado com sucesso");
+      print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+
+      if (voteFederalDeputy(voter, 2))
+        print("Segundo voto para deputado federal registrado com sucesso");
+      print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+
+    } catch (IllegalAccessError e) {
       print(e.getMessage());
-      return false;
+    } catch (Exception e) {
+      print("Ocorreu um erro inesperado");
     }
   }
 
-  private static void startVoter() {
-    print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-    Voter voter = getVoter();
-    if (voter == null)
-      return;
-
-    print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-    print("Vamos começar!\n");
-    print(
-        "OBS:\n- A partir de agora caso você queira votar nulo você deve usar um numero composto de 0 (00 e 0000)\n- A partir de agora caso você queira votar branco você deve escrever br\n");
-
-    print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-    if (votePresident(voter))
-      print("Voto para presidente registrado com sucesso");
-
-    print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-    if (voteFederalDeputy(voter, 1))
-      print("Primeiro voto para deputado federal registrado com sucesso");
-
-    print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-    if (voteFederalDeputy(voter, 2))
-      print("Segundo voto para deputado federal registrado com sucesso");
-  }
-
   private static TSEProfessional getTSEProfessional() {
-    print("Insira seu usuário");
+    print("Insira seu usuário:");
     String user = readString();
     TSEProfessional tseProfessional = TSEMap.get(user);
     if (tseProfessional == null) {
       print("Funcionário do TSE não encontrado, por favor confirme se a entrada está correta e tente novamente");
     } else {
-      print("Insira sua senha");
+      print("Insira sua senha:");
       String password = readString();
       // Deveria ser um hash na pratica
       if (tseProfessional.password.equals(password))
@@ -238,7 +239,7 @@ public class Scratch {
 
   private static void addCandidate(TSEEmployee tseProfessional) {
     print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-    print("Qual a categoria de seu candidato?");
+    print("Qual a categoria de seu candidato?\n");
     print("(1) Presidente");
     print("(2) Deputado Federal");
     int candidateType = readInt();
@@ -259,26 +260,27 @@ public class Scratch {
 
       print("\nCadastrar o candidato deputado federal " + name + " Nº " + number + " do " + party + "(" + state + ")?");
       candidate = new FederalDeputy.Builder()
-          .name("name")
+          .name(name)
           .number(123)
-          .party("test")
+          .party(party)
           .state(state)
           .build();
     } else if (candidateType == 1) {
-      print("/nCadastrar o candidato a presidente " + name + " Nº " + number + " do " + party + "?");
+      print("\nCadastrar o candidato a presidente " + name + " Nº " + number + " do " + party + "?");
       candidate = new President.Builder()
-          .name("name")
+          .name(name)
           .number(123)
-          .party("test")
+          .party(party)
           .build();
     }
 
-    print("(1) Sim\n(2) Não\n");
+    print("(1) Sim\n(2) Não");
     int save = readInt();
     if (save == 1 && candidate != null) {
       print("Insira a senha da urna");
       String pwd = readString();
       tseProfessional.addCandidate(candidate, currentElection, pwd);
+      print("Candidato cadastrado com sucesso");
     }
   }
 
@@ -313,45 +315,91 @@ public class Scratch {
       print("/Remover o candidato a presidente " + candidate.name + " Nº " + candidate.number + " do " + candidate.party
           + "?");
     }
-    print("(1) Sim\n(2) Não\n");
+    print("(1) Sim\n(2) Não");
     int remove = readInt();
     if (remove == 1) {
-      print("Insira a senha da urna");
+      print("Insira a senha da urna:");
       String pwd = readString();
       tseProfessional.removeCandidate(candidate, currentElection, pwd);
+      print("Candidato removido com sucesso");
     }
   }
 
-  private static void startTSE() {
-    print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-    TSEProfessional tseProfessional = getTSEProfessional();
-    if (tseProfessional == null)
-      return;
-    print("aaaaaaaaaaaaaaaa");
-    print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-    print("Escolha uma opção:");
-    if (tseProfessional instanceof TSEEmployee) {
-      print("(1) Cadastrar candidato");
-      print("(2) Remover candidato");
-      int command = readInt();
-      switch (command) {
-        case 1 -> addCandidate((TSEEmployee) tseProfessional);
-        case 2 -> removeCandidate((TSEEmployee) tseProfessional);
-        default -> print("Comando inválido\n");
-      }
-    } else if (tseProfessional instanceof CertifiedProfessional) {
-      print("(1) Iniciar sessão");
-      print("(2) Finalizar sessão");
-      print("(3) Mostrar resultados");
-      int command = readInt();
-      switch (command) {
-        case 1 -> addCandidate((TSEEmployee) tseProfessional);
-        case 2 -> removeCandidate((TSEEmployee) tseProfessional);
-        case 3 -> removeCandidate((TSEEmployee) tseProfessional);
-        default -> print("Comando inválido\n");
-      }
+  private static void startSession(CertifiedProfessional tseProfessional) {
+    try {
+      print("Insira a senha da urna");
+      String pwd = readString();
+      tseProfessional.startSession(currentElection, pwd);
+      print("Sessão inicializada");
+      print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+    } catch (IllegalAccessError e) {
+      print(e.getMessage());
     }
+  }
 
+  private static void endSession(CertifiedProfessional tseProfessional) {
+    try {
+      print("Insira a senha da urna:");
+      String pwd = readString();
+      tseProfessional.endSession(currentElection, pwd);
+      print("Sessão finalizada com sucesso");
+      print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+    } catch (IllegalAccessError e) {
+      print(e.getMessage());
+    }
+  }
+
+  private static void showResults(CertifiedProfessional tseProfessional) {
+    try {
+      print("Insira a senha da urna");
+      String pwd = readString();
+      tseProfessional.showFinalResult(currentElection, pwd);
+      print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+    } catch (IllegalAccessError e) {
+      print(e.getMessage());
+    }
+  }
+
+  private static void tseMenu() {
+    try {
+      TSEProfessional tseProfessional = getTSEProfessional();
+      if (tseProfessional == null)
+        return;
+      print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+      Boolean back = false;
+      while (!back) {
+        print("Escolha uma opção:");
+        if (tseProfessional instanceof TSEEmployee) {
+          print("(1) Cadastrar candidato");
+          print("(2) Remover candidato");
+          print("(0) Sair");
+          int command = readInt();
+          switch (command) {
+            case 1 -> addCandidate((TSEEmployee) tseProfessional);
+            case 2 -> removeCandidate((TSEEmployee) tseProfessional);
+            case 0 -> back = true;
+            default -> print("Comando inválido\n");
+          }
+        } else if (tseProfessional instanceof CertifiedProfessional) {
+          print("(1) Iniciar sessão");
+          print("(2) Finalizar sessão");
+          print("(3) Mostrar resultados");
+          print("(0) Sair");
+          int command = readInt();
+          switch (command) {
+            case 1 -> startSession((CertifiedProfessional) tseProfessional);
+            case 2 -> endSession((CertifiedProfessional) tseProfessional);
+            case 3 -> showResults((CertifiedProfessional) tseProfessional);
+            case 0 -> back = true;
+            default -> print("Comando inválido\n");
+          }
+        }
+      }
+    } catch (IllegalAccessError e) {
+      print(e.getMessage());
+    } catch (Exception e) {
+      print("Ocorreu um erro inesperado");
+    }
   }
 
   private static void loadVoters() {
@@ -384,13 +432,53 @@ public class Scratch {
 
   public static void main(String[] args) {
     // Startup the current election instance
+    String electionPassword = "123";
+
     currentElection = new Election.Builder()
-        .password("securePassword")
+        .password(electionPassword)
         .build();
 
     // Startar todo os eleitores e profissionais do TSE
     loadVoters();
     loadTSEProfessionals();
+
+    President presidentCandidate1 = new President.Builder()
+        .name("João")
+        .number(123)
+        .party("PDS1")
+        .build();
+    currentElection.addPresidentCandidate(presidentCandidate1, electionPassword);
+    President presidentCandidate2 = new President.Builder()
+        .name("Maria")
+        .number(124)
+        .party("ED")
+        .build();
+    currentElection.addPresidentCandidate(presidentCandidate2, electionPassword);
+
+    FederalDeputy federalDeputyCandidate1 = new FederalDeputy.Builder()
+        .name("Carlos")
+        .number(12345)
+        .party("PDS1")
+        .state("MG")
+        .build();
+    currentElection.addFederalDeputyCandidate(federalDeputyCandidate1, electionPassword);
+
+    FederalDeputy federalDeputyCandidate2 = new FederalDeputy.Builder()
+        .name("Cleber")
+        .number(12346)
+        .party("PDS2")
+        .state("MG")
+        .build();
+    currentElection.addFederalDeputyCandidate(federalDeputyCandidate2, electionPassword);
+
+    FederalDeputy federalDeputyCandidate3 = new FederalDeputy.Builder()
+        .name("Sofia")
+        .number(12347)
+        .party("IHC")
+        .state("MG")
+        .build();
+    currentElection.addFederalDeputyCandidate(federalDeputyCandidate3, electionPassword);
+
     startMenu();
   }
 }

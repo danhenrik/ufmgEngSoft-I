@@ -2,16 +2,16 @@ package scratch;
 
 // Gere o processo eleitoral
 public class CertifiedProfessional extends TSEProfessional {
-  public void startSession() {
-
+  public void startSession(Election election, String password) {
+    election.start(password);
   }
 
-  public void endSession() {
-
+  public void endSession(Election election, String password) {
+    election.finish(password);
   }
 
-  public void showFinalResult() {
-
+  public void showFinalResult(Election election, String password) {
+    election.showResults(password);
   }
 
   public static class Builder {
@@ -53,7 +53,7 @@ public class CertifiedProfessional extends TSEProfessional {
     super(user, password);
   }
 
-  public String getUser(){
+  public String getUser() {
     return this.user;
   }
 }

@@ -70,7 +70,7 @@ public class Voter {
       else {
         President candidate = election.getPresidentByNumber(number);
         if (candidate == null)
-          throw new IllegalAccessError("invalid candidate number");
+          throw new IllegalAccessError("Número de candidato inválido");
         election.computeVote(candidate, this);
       }
     } else if (type.equals("FederalDeputy"))
@@ -81,7 +81,7 @@ public class Voter {
       else {
         FederalDeputy candidate = election.getFederalDeputyByNumber(state, number);
         if (candidate == null)
-          throw new IllegalAccessError("invalid candidate number");
+          throw new IllegalAccessError("Número de candidato inválido");
         election.computeVote(candidate, this);
       }
     ;

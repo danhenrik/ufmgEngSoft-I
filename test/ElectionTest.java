@@ -61,13 +61,13 @@ public class ElectionTest {
   public void computeVote(Candidate candidate, Voter voter) {
     if (candidate instanceof President) {
       if (this.votersPresident.get(voter) >= 1)
-        throw new IllegalAccessError("Cannot vote more than once");
+        throw new IllegalAccessError("Você não pode votar mais de uma vez para presidente");
 
       candidate.numVotes++;
       votersPresident.put(voter, 1);
     } else if (candidate instanceof FederalDeputy) {
       if (this.votersFederalDeputy.get(voter) >= 2)
-        throw new IllegalAccessError("Cannot vote more than once");
+        throw new IllegalAccessError("Você não pode votar mais de duas vezes para deputado federal");
 
       candidate.numVotes++;
       votersFederalDeputy.put(voter, votersFederalDeputy.get(voter) + 1);
@@ -77,13 +77,13 @@ public class ElectionTest {
   public void computeNullVote(String type, Voter voter) {
     if (type.equals("President")) {
       if (this.votersPresident.get(voter) >= 1)
-        throw new IllegalAccessError("Cannot vote more than once");
+        throw new IllegalAccessError("Você não pode votar mais de uma vez para presidente");
 
       this.nullVotes++;
       votersPresident.put(voter, 1);
     } else if (type.equals("FederalDeputy")) {
       if (this.votersFederalDeputy.get(voter) >= 2)
-        throw new IllegalAccessError("Cannot vote more than once");
+        throw new IllegalAccessError("Você não pode votar mais de duas vezes para deputado federal");
 
       this.nullVotes++;
       votersFederalDeputy.put(voter, votersFederalDeputy.get(voter) + 1);
@@ -93,13 +93,13 @@ public class ElectionTest {
   public void computeProtestVote(String type, Voter voter) {
     if (type.equals("President")) {
       if (this.votersPresident.get(voter) >= 1)
-        throw new IllegalAccessError("Cannot vote more than once");
+      throw new IllegalAccessError("Você não pode votar mais de uma vez para presidente");
 
       this.protestVote++;
       votersPresident.put(voter, 1);
     } else if (type.equals("FederalDeputy")) {
       if (this.votersFederalDeputy.get(voter) >= 2)
-        throw new IllegalAccessError("Cannot vote more than once");
+      throw new IllegalAccessError("Você não pode votar mais de duas vezes para deputado federal");
 
       this.protestVote++;
       votersFederalDeputy.put(voter, votersFederalDeputy.get(voter) + 1);
@@ -108,21 +108,21 @@ public class ElectionTest {
 
   public boolean getStatus(String password) {
     if (!isValid(password))
-      throw new IllegalAccessError("invalid password");
-      
+      throw new IllegalAccessError("Senha inválida");
+
     return status;
   }
 
   public void start(String password) {
     if (!isValid(password))
-      throw new IllegalAccessError("invalid password");
+      throw new IllegalAccessError("Senha inválida");
 
     this.status = true;
   }
 
   public void finish(String password) {
     if (!isValid(password))
-      throw new IllegalAccessError("invalid password");
+      throw new IllegalAccessError("Senha inválida");
 
     this.status = false;
   }
@@ -133,7 +133,7 @@ public class ElectionTest {
 
   public void addPresidentCandidate(President candidate, String password) {
     if (!isValid(password))
-      throw new IllegalAccessError("invalid password");
+      throw new IllegalAccessError("Senha inválida");
 
     this.presidentCandidates.put(candidate.number, candidate);
   }
@@ -144,14 +144,14 @@ public class ElectionTest {
 
   public void addFederalDeputyCandidate(FederalDeputy candidate, String password) {
     if (!isValid(password))
-      throw new IllegalAccessError("invalid password");
+      throw new IllegalAccessError("Senha inválida");
 
     this.federalDeputyCandidates.put(candidate.state + candidate.number, candidate);
   }
 
   public String showResults(String password) {
     if (!isValid(password))
-      throw new IllegalAccessError("invalid password");
+      throw new IllegalAccessError("Senha inválida");
 
     var presidentRank = new ArrayList<President>();
     var federalDeputyRank = new ArrayList<FederalDeputy>();
