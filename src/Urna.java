@@ -478,41 +478,9 @@ public class Urna {
         .build();
 
     // Startar todo os eleitores e profissionais do TSE
-    // loadVoters();
-    // loadTSEProfessionals();
+    loadVoters();
+    loadTSEProfessionals();
 
-    Voter v1 = new Voter.Builder().name("v1").electoralCard("123456789012").state("MG").build();
-    Voter v2 = new Voter.Builder().name("v2").electoralCard("223456789022").state("MG").build();
-    Voter v3 = new Voter.Builder().name("v3").electoralCard("333456789033").state("MG").build();
-
-    President presidentCandidate1 = new President.Builder().name("João").number(123).party("PDS1").build();
-    currentElection.addPresidentCandidate(presidentCandidate1, electionPassword);
-    President presidentCandidate2 = new President.Builder().name("Maria").number(124).party("ED").build();
-    currentElection.addPresidentCandidate(presidentCandidate2, electionPassword);
-    FederalDeputy federalDeputyCandidate1 = new FederalDeputy.Builder().name("Carlos").number(12345).party("PDS1")
-        .state("MG").build();
-    currentElection.addFederalDeputyCandidate(federalDeputyCandidate1, electionPassword);
-    FederalDeputy federalDeputyCandidate2 = new FederalDeputy.Builder().name("Cleber").number(54321).party("PDS2")
-        .state("MG").build();
-    currentElection.addFederalDeputyCandidate(federalDeputyCandidate2, electionPassword);
-    FederalDeputy federalDeputyCandidate3 = new FederalDeputy.Builder().name("Sofia").number(11211).party("IHC")
-        .state("MG").build();
-    currentElection.addFederalDeputyCandidate(federalDeputyCandidate3, electionPassword);
-
-    currentElection.start(electionPassword);
-
-    v1.vote(123, currentElection, "President", false);
-    v2.vote(123, currentElection, "President", false);
-    v3.vote(124, currentElection, "President", false);
-    v1.vote(12345, currentElection, "FederalDeputy", false);
-    v1.vote(0000, currentElection, "FederalDeputy", false);
-    v2.vote(12345, currentElection, "FederalDeputy", false);
-    v2.vote(54321, currentElection, "FederalDeputy", false);
-    v3.vote(12345, currentElection, "FederalDeputy", false);
-    v3.vote(0, currentElection, "FederalDeputy", true);
-
-    currentElection.finish(electionPassword);
-    print(currentElection.getResults(electionPassword));
-    // startMenu();
+    startMenu();
   }
 }

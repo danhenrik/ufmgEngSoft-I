@@ -243,7 +243,7 @@ public class Election {
     builder.append("\n\n  Presidente eleito:\n");
     builder.append("  " + electPresident.name + " do " + electPresident.party + " com "
         + decimalFormater.format((double) electPresident.numVotes / (double) totalVotesP * 100) + "% dos votos\n");
-    builder.append("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\\n\n");
+    builder.append("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 
     builder.append("\n\n  Votos deputado federal:\n");
     builder.append("  Votos nulos: " + nullFederalDeputyVotes + " ("
