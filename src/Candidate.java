@@ -1,9 +1,7 @@
- 
-
 public class Candidate {
-  public final String name;
+  protected final String name;
 
-  public final String party;
+  protected final String party;
 
   protected final int number;
 

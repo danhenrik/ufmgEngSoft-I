@@ -1,6 +1,4 @@
- 
-
-// Gere a preparação do ambiente (candidatos)
+// Gerencia a preparação do ambiente (candidatos)
 public class TSEEmployee extends TSEProfessional {
   public void addCandidate(Candidate candidate, Election election, String password) {
     if (candidate instanceof President)

@@ -1,10 +1,4 @@
- 
-
-import java.util.UUID;
-
 public class Voter {
-  protected final UUID id;
-
   protected final String electoralCard;
 
   protected final String name;
@@ -55,7 +49,6 @@ public class Voter {
   }
 
   protected Voter(String electoralCard, String name, String state) {
-    this.id = UUID.randomUUID();
     this.electoralCard = electoralCard;
     this.name = name;
     this.state = state;
