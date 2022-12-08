@@ -91,4 +91,8 @@ public class FederalDeputy extends Candidate {
 
     return this.toString().equals(fd.toString());
   }
+
+  public String getState(){
+    return this.state;
+  }
 }
