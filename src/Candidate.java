@@ -38,10 +38,10 @@ public class Candidate {
   }
 
   public String getParty() {
-    return this.name;
+    return this.party;
   }
 
-  public String getNumber() {
-    return this.name;
+  public int getNumber() {
+    return this.number;
   }
 }
